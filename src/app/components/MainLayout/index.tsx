@@ -1,11 +1,14 @@
 import React from 'react';
+import { ScrollView } from 'react-native';
 
 import * as S from './styles';
 
 const MainLayout = ({ children }: any) => {
   return (
     <S.Container>
-      {children}
+      <ScrollView>
+        {children}
+      </ScrollView>
     </S.Container>
   );
 };
