@@ -1,19 +1,51 @@
-import React from 'react';
-import { Text, TextInput } from 'react-native-paper';
+import React, { useState } from 'react';
+import { Button, Text, TextInput } from 'react-native-paper';
 
+import BaseService from '../../../api/service';
 import MainLayout from '../../components/MainLayout';
+import ScrollableContainer from '../../components/ScrollableContainer';
 import * as S from './styles';
 
+
+const fetchMovies = async (query: any) => {
+  const url = `suggestion?query=${encodeURIComponent(query)}`;
+  const response = await BaseService.get(url);
+  console.log(response);
+  return response;
+}
+
+
 const Home = () => {
+
+  const [text, setText] = useState('');
+  const [movieResponse, setMovieResponse] = useState('');
+
+  const handleSearchMovies = async () => {
+    try {
+      const movies = await fetchMovies(text);
+      setMovieResponse(movies.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   return (
     <MainLayout>
-      <Text variant='displayLarge' style={{ backgroundColor:'red' }}>Movie Tipster</Text>
       <S.Container>
-        <Text>Text 1</Text>
-        <Text>Text 2</Text>
-        <Text>Text 3</Text>
-        <Text>Text 4</Text>
-        <Text>Text 5</Text>
+        <Text variant='displaySmall'>Movie Tipster</Text>
+        <Text variant='headlineSmall'>O que você está procurando hoje?</Text>
+        <TextInput
+          label='Pesquisar'
+          mode='outlined'
+          style={{ width: '100%' }}
+          onChangeText={setText}
+          value={text}
+        />
+        <Button mode='contained' onPress={handleSearchMovies}>Buscar</Button>
+        <ScrollableContainer>
+          <Text>{movieResponse}</Text>
+        </ScrollableContainer>
       </S.Container>
     </MainLayout>
   );
