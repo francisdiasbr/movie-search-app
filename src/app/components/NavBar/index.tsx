@@ -81,7 +81,6 @@ const NavBarGuestUser = () => {
 
 const styles = StyleSheet.create({
   bottomBar: {
-    backgroundColor: '#FFF',
     height: 45,
     justifyContent: 'center',
     paddingBottom: 0,
