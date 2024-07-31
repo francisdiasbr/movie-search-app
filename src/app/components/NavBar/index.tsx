@@ -52,7 +52,7 @@ const NavBarGuestUser = () => {
                 size: 26,
               }) || null
             }
-            getLabelText={() => ''}
+            getLabelText={({ route }) => descriptors[route.key].options.tabBarLabel || ''}
             activeColor='#6750a4'
             style={styles.bottomBar}
           />
@@ -65,6 +65,7 @@ const NavBarGuestUser = () => {
         name='Home'
         options={{
           tabBarIcon: tabBarIcon('trending-up'),
+          tabBarLabel: 'Home',
         }}
       />
       <Tab.Screen
@@ -73,6 +74,7 @@ const NavBarGuestUser = () => {
         name='Curatory'
         options={{
           tabBarIcon: tabBarIcon('heart-outline'),
+          tabBarLabel: 'Selection',
         }}
       />
     </Tab.Navigator>
