@@ -15,7 +15,6 @@ const ScrollableContainer: React.FC<ScrollableContainerProps> = ({
 
 const styles = StyleSheet.create<{container: ViewStyle}>({
   container: {
-    backgroundColor: 'orange',
     flexGrow: 1,
   },
 });

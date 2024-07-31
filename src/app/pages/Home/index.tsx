@@ -1,34 +1,22 @@
 import React, { useState } from 'react';
 import { Button, Text, TextInput } from 'react-native-paper';
 
-import BaseService from '../../../api/service';
+import { fetchMovieSuggestion } from '../../../store/movieSuggestionSlice';
+import { useAppDispatch } from '../../../store/store';
+import { useGlobalState } from '../../../store/useGlobalState';
 import MainLayout from '../../components/MainLayout';
 import ScrollableContainer from '../../components/ScrollableContainer';
 import * as S from './styles';
 
-
-const fetchMovies = async (query: any) => {
-  const url = `suggestion?query=${encodeURIComponent(query)}`;
-  const response = await BaseService.get(url);
-  console.log(response);
-  return response;
-}
-
-
 const Home = () => {
-
   const [text, setText] = useState('');
-  const [movieResponse, setMovieResponse] = useState('');
+  
+  const dispatch = useAppDispatch();
+  const movieState = useGlobalState(state => state.movies);
 
-  const handleSearchMovies = async () => {
-    try {
-      const movies = await fetchMovies(text);
-      setMovieResponse(movies.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSearchSuggestion = () => {
+    dispatch(fetchMovieSuggestion(text));
   }
-
 
   return (
     <MainLayout>
@@ -42,9 +30,10 @@ const Home = () => {
           onChangeText={setText}
           value={text}
         />
-        <Button mode='contained' onPress={handleSearchMovies}>Buscar</Button>
+        <Button loading={movieState.status === 'loading'} mode='contained' onPress={handleSearchSuggestion}>{movieState.status === 'loading' ? '' : 'Buscar'}</Button>
         <ScrollableContainer>
-          <Text>{movieResponse}</Text>
+          <Text>{movieState.status === 'loading' ? 'Carregando...' : movieState.data}</Text>
+          {movieState.status === 'failed' && <Text>{movieState.error}</Text>}
         </ScrollableContainer>
       </S.Container>
     </MainLayout>
