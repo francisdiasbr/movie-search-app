@@ -14,7 +14,6 @@ const Curatory = () => {
   const curatoryState = useGlobalState(state => state.moviesCuratory);
 
   useEffect(() => {
-    console.log('Current curatory state on mount:', curatoryState);
     dispatch(fetchCuratory());
   }, []);
 
