@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import BaseService from '../api/service';
-import { MovieCuratoryState } from './types';
+import { MovieCuratoryState, MovieItem } from './types';
 
 
 export const fetchCuratory = createAsyncThunk(
@@ -39,7 +39,7 @@ const movieCuratorySlice = createSlice({
       })
       .addCase(fetchCuratory.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.data = action.payload;
+        state.data = action.payload as MovieItem[];
       })
       .addCase(fetchCuratory.rejected, (state) => {
         state.status = 'failed';
